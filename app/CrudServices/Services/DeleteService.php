@@ -21,12 +21,8 @@ abstract class DeleteService implements DeletingInterface
      * @var Model
      */
     protected $modelId;
-    public function getFailedMessage():string{
-        return "test";
-    }
-    public function getSuccessMessage():string{
-        return "test";
-    }
+    public abstract function getFailedMessage():string;
+    public abstract function getSuccessMessage():string;
 
     public function __construct($modelId)
     {

@@ -26,16 +26,9 @@ abstract class UpdateService implements UpdatingInterface
      * @var Model
      */
     protected $modelId;
-    public function getFailedMessage():string{
-        return "test";
-    }
-    public function getSuccessMessage():string{
-        return "test";
-    }
-    public function setRequestFile(){
-
-        return  ;
-    }
+    public abstract function getFailedMessage():string;
+    public abstract function getSuccessMessage():string;
+    public abstract function setRequestFile();
     public function __construct($modelId)
     {
         $this->setSuccesMessage($this->getSuccessMessage());

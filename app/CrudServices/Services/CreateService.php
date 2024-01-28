@@ -22,20 +22,10 @@ abstract class CreateService implements StoringInterface
      * @var string
      */
     protected $model ;
-    public function getFailedMessage():string{
-        return "test";
-    }
-    public function getSuccessMessage():string{
-        return "test";
-    }
-    public function setRequestFile(){
-
-        return  ;
-    }
-    public function getModelFile(){
-
-        return ;
-    }
+    public abstract function getFailedMessage():string;
+    public abstract function getSuccessMessage():string;
+    public abstract function setRequestFile();
+    public abstract function getModelFile();
     public function __construct()
     {
         $this->setSuccesMessage($this->getSuccessMessage());
