@@ -3,7 +3,7 @@
 namespace App\CrudServices;
 
 use App\CrudServices\Services\CreateService;
-use App\Http\Requests\PostRequest;
+use App\Http\Requests\PostStoringRequest;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,6 +26,6 @@ class PostCreateService extends CreateService
 
     protected function setRequestFile()
     {
-        return PostRequest::class;
+        return PostStoringRequest::class;
     }
 }

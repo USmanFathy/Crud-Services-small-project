@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CrudServices\PostCreateService;
+use App\CrudServices\Services\PostUpdateService;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        return (new PostCreateService())->create($request);
+        return (new PostCreateService())->create();
     }
 
     /**
@@ -33,9 +34,9 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Post $post)
     {
-        //
+        return (new PostUpdateService($post))->update();
     }
 
     /**

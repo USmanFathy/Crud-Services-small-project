@@ -1,9 +1,12 @@
 <?php
-namespace App\CrudServices\Services;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
-abstract class CreateService
+namespace App\CrudServices\Services;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+abstract class UpdateService
 {
     /**
      * @var string
@@ -21,6 +24,10 @@ abstract class CreateService
      * @var string
      */
     protected $model ;
+    /**
+     * @var Model
+     */
+    protected $modelId;
     protected function getFailedMessage():string{
         return "test";
     }
@@ -35,19 +42,19 @@ abstract class CreateService
 
         return ;
     }
-    public function __construct()
+    public function __construct($modelId)
     {
         $this->setSuccesMessage($this->getSuccessMessage());
         $this->setFailMessage($this->getFailedMessage());
         $this->setRequest($this->setRequestFile());
         $this->setModel($this->getModelFile());
+        $this->setModelId($modelId);
     }
 
     public function getSuccesMessage(): string
     {
         return $this->succesMessage;
     }
-
 
     public function setSuccesMessage(string $succesMessage): void
     {
@@ -79,34 +86,38 @@ abstract class CreateService
         return $this->model;
     }
 
-    public function setModel(string $model): void
+    public function setModel(string $model)
     {
         $this->model = $model;
     }
 
+    public function getModelId(): Model
+    {
+        return $this->modelId;
+    }
 
-
-
-
-
+    public function setModelId(Model $modelId): void
+    {
+        $this->modelId = $modelId;
+    }
     private function message($data):array{
 
         return [
             'message' => $data
         ];
-}
+    }
 
     private function valdiate(Request $request){
         return $request->validate(resolve($this->getRequest())->rules());
     }
 
-    public function create(){
+    public function update(){
         $request = \request();
         $data =$this->valdiate($request);
 
         try {
             DB::beginTransaction();
-            resolve($this->getModel())->create($data);
+            $this->getModelId()->update($data);
             DB::commit();
 
             return response()->json($this->message($this->getSuccesMessage()) , 200);
@@ -118,4 +129,5 @@ abstract class CreateService
 
         }
     }
+
 }
