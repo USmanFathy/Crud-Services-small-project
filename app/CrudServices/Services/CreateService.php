@@ -1,9 +1,10 @@
 <?php
 namespace App\CrudServices\Services;
+use App\CrudServices\Interfaces\StoringInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
-abstract class CreateService
+abstract class CreateService implements StoringInterface
 {
     /**
      * @var string
@@ -21,17 +22,17 @@ abstract class CreateService
      * @var string
      */
     protected $model ;
-    protected function getFailedMessage():string{
+    public function getFailedMessage():string{
         return "test";
     }
-    protected function getSuccessMessage():string{
+    public function getSuccessMessage():string{
         return "test";
     }
-    protected function setRequestFile(){
+    public function setRequestFile(){
 
         return  ;
     }
-    protected function getModelFile(){
+    public function getModelFile(){
 
         return ;
     }

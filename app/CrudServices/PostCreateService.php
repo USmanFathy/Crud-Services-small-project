@@ -10,21 +10,21 @@ use Illuminate\Database\Eloquent\Model;
 class PostCreateService extends CreateService
 {
 
-    protected function getFailedMessage(): string
+    public function getFailedMessage(): string
     {
         return "Failed create";
     }
 
-    protected function getSuccessMessage(): string
+    public function getSuccessMessage(): string
     {
         return "Created";
     }
-    protected function getModelFile()
+    public function getModelFile()
     {
         return Post::class;
     }
 
-    protected function setRequestFile()
+    public function setRequestFile()
     {
         return PostStoringRequest::class;
     }

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\CrudServices\PostCreateService;
-use App\CrudServices\Services\PostUpdateService;
+use App\CrudServices\PostDeleteService;
+use App\CrudServices\PostUpdateService;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -44,6 +45,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        return (new PostDeleteService($post))->delete();
     }
 }

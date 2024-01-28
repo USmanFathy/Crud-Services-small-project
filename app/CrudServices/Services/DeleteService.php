@@ -2,12 +2,11 @@
 
 namespace App\CrudServices\Services;
 
-use App\CrudServices\Interfaces\UpdatingInterface;
+use App\CrudServices\Interfaces\DeletingInterface;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-abstract class UpdateService implements UpdatingInterface
+abstract class DeleteService implements DeletingInterface
 {
     /**
      * @var string
@@ -17,10 +16,6 @@ abstract class UpdateService implements UpdatingInterface
      * @var string
      */
     protected $failMessage ;
-    /**
-     * @var string
-     */
-    protected $request ;
 
     /**
      * @var Model
@@ -32,15 +27,11 @@ abstract class UpdateService implements UpdatingInterface
     public function getSuccessMessage():string{
         return "test";
     }
-    public function setRequestFile(){
 
-        return  ;
-    }
     public function __construct($modelId)
     {
         $this->setSuccesMessage($this->getSuccessMessage());
         $this->setFailMessage($this->getFailedMessage());
-        $this->setRequest($this->setRequestFile());
         $this->setModelId($modelId);
     }
 
@@ -64,17 +55,6 @@ abstract class UpdateService implements UpdatingInterface
         $this->failMessage = $failMessage;
     }
 
-    public function getRequest(): string
-    {
-        return $this->request;
-    }
-
-    public function setRequest(string $request): void
-    {
-        $this->request = $request;
-    }
-
-
 
     public function getModelId(): Model
     {
@@ -92,17 +72,11 @@ abstract class UpdateService implements UpdatingInterface
         ];
     }
 
-    private function valdiate(Request $request){
-        return $request->validate(resolve($this->getRequest())->rules());
-    }
 
-    public function update(){
-        $request = \request();
-        $data =$this->valdiate($request);
-
+    public function delete(){
         try {
             DB::beginTransaction();
-            $this->getModelId()->update($data);
+            $this->getModelId()->delete();
             DB::commit();
 
             return response()->json($this->message($this->getSuccesMessage()) , 200);
