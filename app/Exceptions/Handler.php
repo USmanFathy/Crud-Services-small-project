@@ -24,11 +24,7 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(function (ValidationException $exception, $request) {
-            if (!$request->wantsJson()) {
-                return null; // Laravel handles as usual
-            }
-
+        $this->renderable(function (ValidationException $exception) {
             throw CustomValidationException::withMessages(
                 $exception->validator->getMessageBag()->getMessages()
             );
