@@ -9,7 +9,7 @@ class CustomValidationException extends ValidationException
     public function render($request): JsonResponse
     {
         return new JsonResponse([
-            'errors' => $this->validator->errors()->getMessages(),
+            'errors' => $this->validator->errors()->all(),
         ], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
