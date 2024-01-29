@@ -2,7 +2,7 @@
 
 namespace App\CrudServices;
 use App\CrudServices\Services\UpdateService;
-use App\Http\Requests\PostupdatingRequest;
+use App\Http\Requests\PostUpdatingRequest;
 
 class PostUpdateService extends UpdateService
 {
@@ -18,6 +18,6 @@ class PostUpdateService extends UpdateService
     }
     public function setRequestFile()
     {
-        return PostupdatingRequest::class;
+        return PostUpdatingRequest::class;
     }
 }
