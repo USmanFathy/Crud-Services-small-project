@@ -1,8 +1,10 @@
 <?php
 namespace App\CrudServices\Services;
 use App\CrudServices\Interfaces\StoringInterface;
+use App\Exceptions\CustomValidationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 abstract class CreateService implements StoringInterface
 {
@@ -88,7 +90,13 @@ abstract class CreateService implements StoringInterface
 }
 
     private function valdiate(Request $request){
-        return $request->validate(resolve($this->getRequest())->rules());
+
+        $validator = Validator::make($request->all(), resolve($this->getRequest())->rules());
+        if ($validator->fails()) {
+            throw new CustomValidationException($validator);
+        }
+
+        return $validator->validated();
     }
 
     public function create(){
@@ -100,11 +108,11 @@ abstract class CreateService implements StoringInterface
             resolve($this->getModel())->create($data);
             DB::commit();
 
-            return response()->json($this->message($this->getSuccesMessage()) , 200);
+            return $this->message($this->getSuccesMessage());
 
-        }catch (\Throwable$e){
+        }catch (\Exception $e){
             DB::rollBack();
-            throw $e;
+            throw new \Exception($e->getMessage());
 
 
         }

@@ -3,9 +3,11 @@
 namespace App\CrudServices\Services;
 
 use App\CrudServices\Interfaces\UpdatingInterface;
+use App\Exceptions\CustomValidationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 abstract class UpdateService implements UpdatingInterface
 {
@@ -86,7 +88,12 @@ abstract class UpdateService implements UpdatingInterface
     }
 
     private function valdiate(Request $request){
-        return $request->validate(resolve($this->getRequest())->rules());
+        $validator = Validator::make($request->all(), resolve($this->getRequest())->rules());
+        if ($validator->fails()) {
+            throw new CustomValidationException($validator);
+        }
+
+        return $validator->validated();
     }
 
     public function update(){

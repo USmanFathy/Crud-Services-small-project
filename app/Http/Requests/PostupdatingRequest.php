@@ -22,8 +22,8 @@ class PostupdatingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>['nullable' , 'string'],
-            'content'=>['nullable' , 'string'],
+            'title'=>['required' , 'string'],
+            'content'=>['required' , 'string'],
         ];
     }
 }
